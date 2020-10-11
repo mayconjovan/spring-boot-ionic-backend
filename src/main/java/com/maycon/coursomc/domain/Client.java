@@ -14,36 +14,34 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.maycon.coursomc.domain.enums.TypeClient;
 
 @Entity
 public class Client implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String name;
 	private String email;
 	private String cpfOrCnpj;
 	private Integer type;
 
-	@JsonManagedReference
-	@OneToMany(mappedBy="client")
+	@OneToMany(mappedBy = "client")
 	private List<Adress> adress = new ArrayList<>();
-	
+
 	@ElementCollection
-	@CollectionTable(name="TELEPHONE")
+	@CollectionTable(name = "TELEPHONE")
 	private Set<String> phones = new HashSet<>();
 
-	@JsonBackReference
-	@OneToMany(mappedBy="client")
+	@JsonIgnore
+	@OneToMany(mappedBy = "client")
 	private List<Order> orders = new ArrayList<>();
-	
+
 	public Client() {
-		
+
 	}
 
 	public Client(Integer id, String name, String email, String cpfOrCnpj, TypeClient type) {
@@ -110,7 +108,7 @@ public class Client implements Serializable {
 	public void setPhones(Set<String> phones) {
 		this.phones = phones;
 	}
-	
+
 	public List<Order> getOrders() {
 		return orders;
 	}
@@ -143,9 +141,5 @@ public class Client implements Serializable {
 			return false;
 		return true;
 	}
-
-	
-	
-	
 
 }

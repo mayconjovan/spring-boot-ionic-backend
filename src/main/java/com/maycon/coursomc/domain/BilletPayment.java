@@ -10,14 +10,14 @@ import com.maycon.coursomc.domain.enums.StatusPayment;
 @Entity
 public class BilletPayment extends Payment {
 	private static final long serialVersionUID = 1L;
-	
-	@JsonFormat(pattern="dd/MM/yyyy")
-	private Date  dataVenc;
-	@JsonFormat(pattern="dd/MM/yyyy")
+
+	@JsonFormat(pattern = "dd/MM/yyyy")
+	private Date dataVenc;
+	@JsonFormat(pattern = "dd/MM/yyyy")
 	private Date dataPagto;
 
 	public BilletPayment() {
-		
+
 	}
 
 	public BilletPayment(Integer id, StatusPayment status, Order order, Date dataVenc, Date dataPagto) {
@@ -41,6 +41,5 @@ public class BilletPayment extends Payment {
 	public void setDataPagto(Date dataPagto) {
 		this.dataPagto = dataPagto;
 	}
-	
-	
+
 }

@@ -10,26 +10,26 @@ import javax.persistence.JoinColumn;
 import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.maycon.coursomc.domain.enums.StatusPayment;
 
 @Entity
-@Inheritance(strategy=InheritanceType.JOINED)
+@Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Payment implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
-	@Id	
+
+	@Id
 	private Integer id;
 	private Integer status;
-	
-	@JsonBackReference
+
+	@JsonIgnore
 	@OneToOne
-	@JoinColumn(name="order_id")
+	@JoinColumn(name = "order_id")
 	@MapsId
 	private Order order;
-	
+
 	public Payment() {
-		
+
 	}
 
 	public Payment(Integer id, StatusPayment status, Order order) {
@@ -87,6 +87,5 @@ public abstract class Payment implements Serializable {
 			return false;
 		return true;
 	}
-	
-	
+
 }

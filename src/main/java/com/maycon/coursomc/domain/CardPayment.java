@@ -5,16 +5,14 @@ import javax.persistence.Entity;
 import com.maycon.coursomc.domain.enums.StatusPayment;
 
 @Entity
-public class CardPayment extends Payment{
+public class CardPayment extends Payment {
 	private static final long serialVersionUID = 1L;
-	
+
 	private Integer nrParcelas;
 
-	
 	public CardPayment() {
-		
-	}
 
+	}
 
 	public CardPayment(Integer id, StatusPayment status, Order order, Integer nrParcelas) {
 		super(id, status, order);
@@ -22,15 +20,12 @@ public class CardPayment extends Payment{
 
 	}
 
-
 	public Integer getNrParcelas() {
 		return nrParcelas;
 	}
 
-
 	public void setNrParcelas(Integer nrParcelas) {
 		this.nrParcelas = nrParcelas;
 	}
-	
-	
+
 }
