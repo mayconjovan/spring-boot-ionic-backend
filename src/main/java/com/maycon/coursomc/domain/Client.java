@@ -22,7 +22,7 @@ public class Client implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	private String name;
 	private String email;
@@ -32,10 +32,14 @@ public class Client implements Serializable {
 	@JsonManagedReference
 	@OneToMany(mappedBy="client")
 	private List<Adress> adress = new ArrayList<>();
+	
 	@ElementCollection
 	@CollectionTable(name="TELEPHONE")
 	private Set<String> phones = new HashSet<>();
 
+	@OneToMany(mappedBy="client")
+	private List<Order> orders = new ArrayList<>();
+	
 	public Client() {
 		
 	}
@@ -104,6 +108,14 @@ public class Client implements Serializable {
 	public void setPhones(Set<String> phones) {
 		this.phones = phones;
 	}
+	
+	public List<Order> getOrders() {
+		return orders;
+	}
+
+	public void setOrders(List<Order> orders) {
+		this.orders = orders;
+	}
 
 	@Override
 	public int hashCode() {
@@ -129,6 +141,8 @@ public class Client implements Serializable {
 			return false;
 		return true;
 	}
+
+	
 	
 	
 
