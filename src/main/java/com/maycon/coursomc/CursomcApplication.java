@@ -15,6 +15,7 @@ import com.maycon.coursomc.domain.Category;
 import com.maycon.coursomc.domain.City;
 import com.maycon.coursomc.domain.Client;
 import com.maycon.coursomc.domain.Order;
+import com.maycon.coursomc.domain.OrderItem;
 import com.maycon.coursomc.domain.Payment;
 import com.maycon.coursomc.domain.Product;
 import com.maycon.coursomc.domain.State;
@@ -24,6 +25,7 @@ import com.maycon.coursomc.repositories.AdressRepository;
 import com.maycon.coursomc.repositories.CategoryRepository;
 import com.maycon.coursomc.repositories.CityRepository;
 import com.maycon.coursomc.repositories.ClientRepository;
+import com.maycon.coursomc.repositories.OrderItensRepository;
 import com.maycon.coursomc.repositories.OrderRepository;
 import com.maycon.coursomc.repositories.PaymentRepository;
 import com.maycon.coursomc.repositories.ProductRepository;
@@ -48,6 +50,8 @@ public class CursomcApplication implements CommandLineRunner {
 	private OrderRepository orderRepository;
 	@Autowired
 	private PaymentRepository paymentRepository;
+	@Autowired
+	private OrderItensRepository orderItensRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(CursomcApplication.class, args);
@@ -113,6 +117,18 @@ public class CursomcApplication implements CommandLineRunner {
 		orderRepository.saveAll(Arrays.asList(ord1, ord2));
 		paymentRepository.saveAll(Arrays.asList(pay1, pay2));
 		
+		OrderItem ordItem1 = new OrderItem(ord1, p1, 0.00, 1, 2000.00);
+		OrderItem ordItem2 = new OrderItem(ord1, p3, 0.00, 2, 80.00);
+		OrderItem ordItem3 = new OrderItem(ord2, p2, 100.00, 1, 800.00);
+		
+		ord1.getOrderItens().addAll(Arrays.asList(ordItem1, ordItem2));
+		ord2.getOrderItens().addAll(Arrays.asList(ordItem3));
+		
+		p1.getOrderItens().addAll(Arrays.asList(ordItem1));
+		p2.getOrderItens().addAll(Arrays.asList(ordItem3));
+		p3.getOrderItens().addAll(Arrays.asList(ordItem2));
+		
+		orderItensRepository.saveAll(Arrays.asList(ordItem1, ordItem2, ordItem3));
 		
 
 	}
