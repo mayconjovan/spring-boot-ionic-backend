@@ -12,9 +12,11 @@ public class ClientDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private Integer id;
+	
 	@NotEmpty(message="Preenchimento obrigatório")
 	@Size(min=5, max=120, message="O tamanho deve ser entre 5 e 80 caracteres.")
 	private String name;
+	
 	@NotEmpty(message="Preenchimento obrigatório")
 	@Email(message="Email inválido")
 	private String email;
