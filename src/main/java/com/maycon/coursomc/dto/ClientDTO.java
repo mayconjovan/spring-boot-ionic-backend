@@ -7,7 +7,9 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
 import com.maycon.coursomc.domain.Client;
+import com.maycon.coursomc.services.validation.ClientUpdate;
 
+@ClientUpdate
 public class ClientDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	

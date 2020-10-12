@@ -2,43 +2,44 @@ package com.maycon.coursomc.services.validation;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.servlet.HandlerMapping;
 
 import com.maycon.coursomc.domain.Client;
-import com.maycon.coursomc.domain.enums.TypeClient;
-import com.maycon.coursomc.dto.ClientNewDTO;
+import com.maycon.coursomc.dto.ClientDTO;
 import com.maycon.coursomc.repositories.ClientRepository;
 import com.maycon.coursomc.resources.exceptions.FieldMessage;
-import com.maycon.coursomc.services.validation.utils.BR;
 
-public class ClientInsertValidator implements ConstraintValidator<ClientInsert, ClientNewDTO> {
+public class ClientUpdateValidator implements ConstraintValidator<ClientUpdate, ClientDTO> {
+	
+	@Autowired
+	private HttpServletRequest request;
 
 	@Autowired
 	private ClientRepository repo;
 
 	@Override
-	public void initialize(ClientInsert ann) {
+	public void initialize(ClientUpdate ann) {	
 	}
 
 	@Override
-	public boolean isValid(ClientNewDTO objDto, ConstraintValidatorContext context) {
+	public boolean isValid(ClientDTO objDto, ConstraintValidatorContext context) {
 
-		List<FieldMessage> list = new ArrayList<>();
+		@SuppressWarnings("unchecked")
+		Map<String, String> map = (Map<String, String>) request.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
+		Integer uriId = Integer.parseInt(map.get("id"));
 		
-		if (objDto.getType().equals(TypeClient.PESSOAFISICA.getCod()) && !BR.isValidCPF(objDto.getCpfOrCnpj())) {
-			list.add(new FieldMessage("cpfOrCnpj", "CPF inválido"));
-		}
-
-		if (objDto.getType().equals(TypeClient.PESSOAJURIDICA.getCod()) && !BR.isValidCNPJ(objDto.getCpfOrCnpj())) {
-			list.add(new FieldMessage("cpfOrCnpj", "CNPJ inválido"));
-		}
+		
+		List<FieldMessage> list = new ArrayList<>();
 
 		Client aux = repo.findByEmail(objDto.getEmail());
-		if (aux != null) {
+		if (aux != null && !aux.getId().equals(uriId)) {
 			list.add(new FieldMessage("email", "Email ja existente"));
 		}
 
