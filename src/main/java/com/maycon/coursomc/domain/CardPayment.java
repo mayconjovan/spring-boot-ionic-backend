@@ -2,9 +2,11 @@ package com.maycon.coursomc.domain;
 
 import javax.persistence.Entity;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.maycon.coursomc.domain.enums.StatusPayment;
 
 @Entity
+@JsonTypeName("cardPayment")
 public class CardPayment extends Payment {
 	private static final long serialVersionUID = 1L;
 
