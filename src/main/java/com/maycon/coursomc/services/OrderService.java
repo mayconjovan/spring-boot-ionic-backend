@@ -34,6 +34,9 @@ public class OrderService {
 	@Autowired
 	private OrderItensRepository orderItensRepository;
 	
+	@Autowired
+	private ClientService clientService;
+	
 
 	public Order find(Integer id) {
 		Optional<Order> obj = repo.findById(id);
@@ -47,6 +50,7 @@ public class OrderService {
 		
 		obj.setId(null);
 		obj.setInstant(new Date());
+		obj.setClient(clientService.find(obj.getClient().getId()));
 		obj.getPayment().setStatus(StatusPayment.PENDENTE);
 		obj.getPayment().setOrder(obj);
 		if (obj.getPayment() instanceof BilletPayment) {
@@ -58,10 +62,13 @@ public class OrderService {
 		paymentRepository.save(obj.getPayment());
 		for (OrderItem ip : obj.getOrderItens()) {
 			ip.setDiscount(0.0);
-			ip.setPrice(productService.find(ip.getProduct().getId()).getPrice());
+			ip.setProduct(productService.find(ip.getProduct().getId()));
+			ip.setPrice(ip.getProduct().getPrice());
 			ip.setOrder(obj);
 		}
 		orderItensRepository.saveAll(obj.getOrderItens());
+		
+		System.out.println(obj);
 		return obj;
 		
 	}
