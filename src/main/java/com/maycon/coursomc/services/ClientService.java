@@ -15,11 +15,14 @@ import org.springframework.transaction.annotation.Transactional;
 import com.maycon.coursomc.domain.Adress;
 import com.maycon.coursomc.domain.City;
 import com.maycon.coursomc.domain.Client;
+import com.maycon.coursomc.domain.enums.Perfil;
 import com.maycon.coursomc.domain.enums.TypeClient;
 import com.maycon.coursomc.dto.ClientDTO;
 import com.maycon.coursomc.dto.ClientNewDTO;
 import com.maycon.coursomc.repositories.AdressRepository;
 import com.maycon.coursomc.repositories.ClientRepository;
+import com.maycon.coursomc.security.UserSS;
+import com.maycon.coursomc.services.exceptions.AuthorizationException;
 import com.maycon.coursomc.services.exceptions.DataIntegrityException;
 import com.maycon.coursomc.services.exceptions.ObjectNotFoundException;
 
@@ -36,6 +39,11 @@ public class ClientService {
 	private BCryptPasswordEncoder pe;
 
 	public Client find(Integer id) {
+		UserSS user = UserService.authenticated();
+		if(user == null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())) {
+			throw new AuthorizationException("Acesso negado!");
+		}
+		
 		Optional<Client> obj = repo.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
 				"Objeto não encontrado! Id: " + id + ", Tipo: " + Client.class.getName()));
