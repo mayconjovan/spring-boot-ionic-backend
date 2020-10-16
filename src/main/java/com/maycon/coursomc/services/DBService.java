@@ -19,6 +19,7 @@ import com.maycon.coursomc.domain.OrderItem;
 import com.maycon.coursomc.domain.Payment;
 import com.maycon.coursomc.domain.Product;
 import com.maycon.coursomc.domain.State;
+import com.maycon.coursomc.domain.enums.Perfil;
 import com.maycon.coursomc.domain.enums.StatusPayment;
 import com.maycon.coursomc.domain.enums.TypeClient;
 import com.maycon.coursomc.repositories.AdressRepository;
@@ -118,16 +119,22 @@ public class DBService {
 		stateRepository.saveAll(Arrays.asList(est1, est2));
 		cityrepository.saveAll(Arrays.asList(c1, c2, c3));
 		
-		Client cli1 = new Client(null, "Maria Silva", "mayconjovan@gmail.com", "9949593845", TypeClient.PESSOAFISICA, pe.encode("123"));
+		Client cli1 = new Client(null, "Maria Silva", "mayconjovan@gmail.com", "32266138553", TypeClient.PESSOAFISICA, pe.encode("123"));
 		cli1.getPhones().addAll(Arrays.asList("47 3374-0453", "47 9934-9302"));
+		
+		Client cli2 = new Client(null, "Ana Costa", "mayconjovant@gmail.com", "54250752275", TypeClient.PESSOAFISICA, pe.encode("123"));
+		cli1.getPhones().addAll(Arrays.asList("47 3370-0000", "47 9994-3302"));
+		cli2.addPerfil(Perfil.ADMIN);
 		
 		Adress a1 = new Adress(null, "Rua Flores", "300", "Apto 303", "Jardim", "89238923", cli1, c1);
 		Adress a2 = new Adress(null, "Avenida Matos", "105", "Sala 800", "Centro", "89340233", cli1, c2);
+		Adress a3 = new Adress(null, "Avenida Floriano", "34", "Fundos", "Floresta", "03003321", cli2, c3);
 		
 		cli1.getAdress().addAll(Arrays.asList(a1, a2));
+		cli1.getAdress().addAll(Arrays.asList(a3));
 		
-		clientRepository.saveAll(Arrays.asList(cli1));
-		adressRepository.saveAll(Arrays.asList(a1, a2));
+		clientRepository.saveAll(Arrays.asList(cli1, cli2));
+		adressRepository.saveAll(Arrays.asList(a1, a2, a3));
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 		
