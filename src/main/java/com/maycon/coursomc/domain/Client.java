@@ -16,8 +16,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
-
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.maycon.coursomc.domain.enums.TypeClient;
 
@@ -29,13 +27,20 @@ public class Client implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String name;
-	
-	@Column(unique=true)
+
+	@Column(unique = true)
 	private String email;
 	private String cpfOrCnpj;
 	private Integer type;
+	
+	@JsonIgnore
+	private String password;
 
-	@OneToMany(mappedBy = "client", cascade=CascadeType.ALL)
+	public void setType(Integer type) {
+		this.type = type;
+	}
+
+	@OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
 	private List<Adress> adress = new ArrayList<>();
 
 	@ElementCollection
@@ -50,13 +55,14 @@ public class Client implements Serializable {
 
 	}
 
-	public Client(Integer id, String name, String email, String cpfOrCnpj, TypeClient type) {
+	public Client(Integer id, String name, String email, String cpfOrCnpj, TypeClient type, String password) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.email = email;
 		this.cpfOrCnpj = cpfOrCnpj;
 		this.type = (type == null) ? null : type.getCod();
+		this.password = password;
 	}
 
 	public Integer getId() {
@@ -97,6 +103,14 @@ public class Client implements Serializable {
 
 	public void setType(TypeClient type) {
 		this.type = type.getCod();
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	public List<Adress> getAdress() {
