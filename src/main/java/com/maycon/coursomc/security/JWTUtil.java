@@ -23,7 +23,7 @@ public class JWTUtil {
 
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(new Date());
-		cal.add(Calendar.MINUTE, 1);
+		cal.add(Calendar.HOUR, 24);
 		cal.getTime();
 
 		return Jwts.builder().setSubject(username).setExpiration(cal.getTime())
