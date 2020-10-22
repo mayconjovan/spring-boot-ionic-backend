@@ -39,10 +39,6 @@ public class Client implements Serializable {
 	@JsonIgnore
 	private String password;
 
-	public void setType(Integer type) {
-		this.type = type;
-	}
-
 	@OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
 	private List<Adress> adress = new ArrayList<>();
 
